@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.preview-area {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #dee0e3;
+  padding: 16px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 12px;
+}
+
+/* 主题选择栏 */
+.theme-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.theme-label {
+  font-size: 13px;
+  color: #8a8f99;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.theme-options {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.theme-chip {
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  color: #646a73;
+  background: #f0f1f5;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.theme-chip-active {
+  color: #3370FF;
+  background: #e8eeff;
+  border-color: #3370FF;
+  font-weight: 500;
+}
+
+.theme-chip:active {
+  opacity: 0.7;
+}
+
+/* 操作按钮栏 */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  height: 48px;
+}
+
+.btn {
+  flex: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #3370FF;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #3370FF;
+  border: 1px solid #3370FF;
+}
+
+.btn-primary:active {
+  background-color: #2b5fd9;
+}
+
+.btn-secondary:active {
+  background-color: #f0f4ff;
+}

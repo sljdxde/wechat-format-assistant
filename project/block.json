@@ -1,0 +1,22 @@
+{
+  "blockTypeID": "cli_a937d7b327789ccb",
+  "name": {
+    "zh_CN": "微信排版助手",
+    "en_US": "WeChat Formatter"
+  },
+  "desc": {
+    "zh_CN": "一键将飞书文档内容排版并复制到微信公众号编辑器",
+    "en_US": "Format and copy Feishu doc content to WeChat editor."
+  },
+  "icon": "https://s3.bytecdn.cn/aweme/resource/web/static/image/logo/logo_wechat_1.png",
+  "schemaVer": "1.0",
+  "minConfigDataVer": "1.0",
+  "permissions": [
+    "docs"
+  ],
+  "view": {
+    "main": {
+      "path": "page/index/index"
+    }
+  }
+}

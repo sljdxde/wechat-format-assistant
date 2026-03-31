@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "page/index/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "微信排版助手",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f8f9fa"
+  },
+  "debug": false
+}

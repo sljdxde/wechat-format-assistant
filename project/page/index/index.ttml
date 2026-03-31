@@ -1,0 +1,32 @@
+<view class="container">
+  <!-- 预览区 -->
+  <scroll-view class="preview-area" scroll-y="true">
+    <rich-text nodes="{{htmlStructure}}"></rich-text>
+  </scroll-view>
+
+  <!-- 主题选择栏 -->
+  <view class="theme-bar">
+    <view class="theme-label">主题</view>
+    <view class="theme-options">
+      <view
+        tt:for="{{themeList}}"
+        tt:key="key"
+        class="theme-chip {{currentTheme === item.key ? 'theme-chip-active' : ''}}"
+        data-theme="{{item.key}}"
+        bindtap="switchTheme"
+      >
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮栏 -->
+  <view class="action-bar">
+    <view class="btn btn-secondary" bindtap="generateFormat">
+      {{generateButtonText}}
+    </view>
+    <view class="btn btn-primary" bindtap="copyToClipboard">
+      复制到微信
+    </view>
+  </view>
+</view>
