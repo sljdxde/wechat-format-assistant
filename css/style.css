@@ -232,3 +232,37 @@ body {
   .btn-copy { width: 100%; justify-content: center; padding: 14px 24px; }
   .footer-bar { padding: 8px 16px; }
 }
+
+/* ========== Modal ========== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease; backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.modal-show { opacity: 1; pointer-events: all; }
+.modal-content {
+  background: white; padding: 24px; border-radius: var(--radius);
+  width: 90%; max-width: 440px; box-shadow: var(--shadow-lg);
+  transform: translateY(20px); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-show .modal-content { transform: translateY(0); }
+.modal-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); font-family: var(--font-sans); }
+.modal-desc { font-size: 13px; color: var(--text-tertiary); margin-bottom: 20px; font-family: var(--font-sans); line-height: 1.4; }
+.modal-input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; margin-bottom: 24px; font-size: 14px;
+  outline: none; transition: border-color 0.2s; font-family: var(--font-mono);
+}
+.modal-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 12px; }
+.modal-actions button {
+  padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: var(--transition); border: none; font-family: var(--font-sans);
+}
+.btn-cancel { background: var(--border-light); color: var(--text); }
+.btn-cancel:hover { background: var(--border); }
+.btn-confirm { background: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+.btn-confirm:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.btn-confirm:active { transform: translateY(0); }

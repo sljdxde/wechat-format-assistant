@@ -224,16 +224,30 @@
   }
 
   // ==================== 飞书云文档解析 ====================
-  function importFeishuDoc() {
-    var url = prompt('请输入飞书云文档公开链接：\n（请确保文档权限已设置为“获得链接的人可阅读”）', '');
+  var feishuModal = document.getElementById('feishu-modal');
+  var feishuInput = document.getElementById('feishu-url-input');
+
+  function openFeishuModal() {
+    feishuInput.value = '';
+    feishuModal.classList.add('modal-show');
+    setTimeout(function() { feishuInput.focus(); }, 100);
+  }
+
+  function closeFeishuModal() {
+    feishuModal.classList.remove('modal-show');
+  }
+
+  function doImportFeishu() {
+    var url = feishuInput.value.trim();
     if (!url) return;
-    if (!url.trim().startsWith('http')) {
+    if (!url.startsWith('http')) {
       showToast('请输入有效的文档链接', 'error');
       return;
     }
     
+    closeFeishuModal();
     showLoading('正在解析飞书文档（这可能需要几秒钟）...');
-    fetch('https://r.jina.ai/' + url.trim(), {
+    fetch('https://r.jina.ai/' + url, {
       headers: {
         'Accept': 'application/json'
       }
@@ -258,6 +272,17 @@
       showToast('解析失败: ' + err.message, 'error');
       console.error(err);
     });
+  }
+
+  // Bind modal events
+  if(document.getElementById('feishu-cancel-btn')) {
+    document.getElementById('feishu-cancel-btn').addEventListener('click', closeFeishuModal);
+  }
+  if(document.getElementById('feishu-confirm-btn')) {
+    document.getElementById('feishu-confirm-btn').addEventListener('click', doImportFeishu);
+  }
+  if(feishuInput) {
+    feishuInput.addEventListener('keydown', function(e) { if(e.key === 'Enter') doImportFeishu(); });
   }
 
   // ==================== 文件处理 ====================
@@ -401,7 +426,7 @@
   // ==================== 事件绑定 ====================
   input.addEventListener('input', debouncedUpdate);
   document.getElementById('upload-btn').addEventListener('click',function(){fileInput.click();});
-  document.getElementById('feishu-btn').addEventListener('click',importFeishuDoc);
+  document.getElementById('feishu-btn').addEventListener('click',openFeishuModal);
   fileInput.addEventListener('change',function(){if(fileInput.files.length)handleFile(fileInput.files[0]);fileInput.value='';});
   document.getElementById('clear-btn').addEventListener('click',function(){input.value='';updatePreview();});
   document.getElementById('sample-btn').addEventListener('click',loadSample);

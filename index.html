@@ -133,8 +133,21 @@
     </button>
   </footer>
 
-  <script src="js/themes.js?v=2"></script>
-  <script src="js/converter.js?v=2"></script>
-  <script src="js/app.js?v=2"></script>
+  <!-- 飞书解析弹窗 -->
+  <div class="modal-overlay" id="feishu-modal">
+    <div class="modal-content">
+      <h3 class="modal-title">导入飞书公开文档</h3>
+      <p class="modal-desc">请确保云文档权限已设置为“获得链接的人可阅读”</p>
+      <input type="text" id="feishu-url-input" class="modal-input" placeholder="输入飞书文档链接 (https://...)">
+      <div class="modal-actions">
+        <button class="btn-cancel" id="feishu-cancel-btn">取消</button>
+        <button class="btn-confirm" id="feishu-confirm-btn">确定导入</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/themes.js?v=3"></script>
+  <script src="js/converter.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>
