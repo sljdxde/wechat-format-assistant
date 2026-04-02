@@ -223,6 +223,43 @@
       });
   }
 
+  // ==================== 飞书云文档解析 ====================
+  function importFeishuDoc() {
+    var url = prompt('请输入飞书云文档公开链接：\n（请确保文档权限已设置为“获得链接的人可阅读”）', '');
+    if (!url) return;
+    if (!url.trim().startsWith('http')) {
+      showToast('请输入有效的文档链接', 'error');
+      return;
+    }
+    
+    showLoading('正在解析飞书文档（这可能需要几秒钟）...');
+    fetch('https://r.jina.ai/' + url.trim(), {
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(function(res) { 
+      if (!res.ok) throw new Error('网络请求失败 (状态码 ' + res.status + ')');
+      return res.json(); 
+    })
+    .then(function(json) {
+      if (json && json.data && json.data.content) {
+        input.value = json.data.content;
+        updatePreview();
+        hideLoading();
+        showToast('飞书文档解析成功', 'success');
+      } else {
+        hideLoading();
+        showToast('无法读取文档内容，请检查链接是否为公开可见', 'error');
+      }
+    })
+    .catch(function(err) {
+      hideLoading();
+      showToast('解析失败: ' + err.message, 'error');
+      console.error(err);
+    });
+  }
+
   // ==================== 文件处理 ====================
   function handleFile(file) {
     if (!file) return;
@@ -364,6 +401,7 @@
   // ==================== 事件绑定 ====================
   input.addEventListener('input', debouncedUpdate);
   document.getElementById('upload-btn').addEventListener('click',function(){fileInput.click();});
+  document.getElementById('feishu-btn').addEventListener('click',importFeishuDoc);
   fileInput.addEventListener('change',function(){if(fileInput.files.length)handleFile(fileInput.files[0]);fileInput.value='';});
   document.getElementById('clear-btn').addEventListener('click',function(){input.value='';updatePreview();});
   document.getElementById('sample-btn').addEventListener('click',loadSample);
