@@ -237,6 +237,30 @@
     feishuModal.classList.remove('modal-show');
   }
 
+  // 清理飞书文档中无法加载的内容
+  function cleanFeishuContent(md) {
+    var hadImages = /!\[.*?\]\(.*?\)/.test(md);
+    // 移除 blob: 图片引用（飞书内部临时URL，外部无法访问）
+    md = md.replace(/!\[[^\]]*\]\(blob:[^)]*\)\n*/g, '');
+    // 移除飞书内部 API 图片链接
+    md = md.replace(/!\[[^\]]*\]\(https?:\/\/internal-api[^)]*\)\n*/g, '');
+    // 移除 "Failed to load." 标记
+    md = md.replace(/Failed to load\.\n*/g, '');
+    // 清除飞书零宽空格 (U+200B, U+200D, U+FEFF)
+    md = md.replace(/[\u200B\u200D\uFEFF]/g, '');
+    // 清理文档开头的目录导航链接块（飞书自动生成的锚点目录）
+    md = md.replace(/^# Feishu Docs\n+(\*\s+\[.*?\]\(.*?#.*?\)\n*)+\n*/m, '');
+    // 将飞书的 "•" 项目符号转换为标准 Markdown 列表
+    md = md.replace(/^•\n+/gm, '- ');
+    // 将 "* " 列表（Jina 提取）改为 "- " 以保持一致
+    md = md.replace(/^\*\s+/gm, '- ');
+    // 将 "Modified ..." 日期行移除（飞书自动生成的修改日期）
+    md = md.replace(/^Modified [A-Z][a-z]+ \d+\n*/gm, '');
+    // 压缩连续空行（最多保留两个换行）
+    md = md.replace(/\n{3,}/g, '\n\n');
+    return { content: md.trim(), hadImages: hadImages };
+  }
+
   function doImportFeishu() {
     var url = feishuInput.value.trim();
     if (!url) return;
@@ -258,10 +282,16 @@
     })
     .then(function(json) {
       if (json && json.data && json.data.content) {
-        input.value = json.data.content;
+        var result = cleanFeishuContent(json.data.content);
+        input.value = result.content;
         updatePreview();
         hideLoading();
         showToast('飞书文档解析成功', 'success');
+        if (result.hadImages) {
+          setTimeout(function() {
+            showToast('⚠️ 飞书文档中的图片受权限保护，无法自动导入，请手动添加', 'info');
+          }, 800);
+        }
       } else {
         hideLoading();
         showToast('无法读取文档内容，请检查链接是否为公开可见', 'error');
